@@ -1,5 +1,7 @@
 // pages/index.js
 
+"use client"
+
 import { useEffect } from 'react';
 
 const fetchTokens = async () => {
