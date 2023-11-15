@@ -2,7 +2,7 @@
 
 "use client"
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const fetchTokens = async () => {
   try {
@@ -16,20 +16,37 @@ const fetchTokens = async () => {
 
     const response = await fetch('https://api.reservoir.tools/tokens/v6?collection=0x7a31c6726f358fad0783110a46ef489372fbfc65', options);
     const data = await response.json();
-    console.log(data); // Log the token data to the console
+    return data; // Return the token data
   } catch (error) {
     console.error('Error fetching tokens:', error);
+    return null;
   }
 };
 
 const Home = () => {
+  const [tokens, setTokens] = useState([]);
+
   useEffect(() => {
-    fetchTokens();
+    const loadTokens = async () => {
+      const tokenData = await fetchTokens();
+      if (tokenData) {
+        setTokens(tokenData.tokens); // Assuming the API response has a "tokens" property
+      }
+    };
+    loadTokens();
   }, []);
 
   return (
     <div>
-      <h1> Test </h1>
+      <h1>Anomaly AI NFT Collection Tokens</h1>
+      <ul>
+        {tokens.map((token) => (
+          <li key={`${token.contract}-${token.tokenId}`}>
+            {/* Customize how you want to display each token */}
+            Token ID: {token.tokenId}, Name: {token.name}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
