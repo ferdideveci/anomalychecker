@@ -125,20 +125,21 @@ const Home = () => {
   };
 
   const handleTokenSearch = async () => {
-    if (!searchedNumber || !searchedHashtagItem || searchedNumber < 1 || searchedNumber > 888 || !/^#\d{1,2}\/10$/.test(searchedHashtagItem)) {
+    if (!searchedNumber || !searchedHashtagItem || searchedNumber < 1 || searchedNumber > 888 || !/^#\d{1,3}\/10$/.test(searchedHashtagItem)) {
       alert('Please enter a valid number between 1 and 888 along with a valid hashtag item (#1/10-#10/10)');
       return;
     }
-  
+
     try {
       const allTokens = await fetchAllTokens();
       const foundToken = allTokens.find(
         (token) => {
-          const pattern = `Anomaly AI ${searchedNumber} ${searchedHashtagItem}`;
-          return token.token.name === pattern;
+          const tokenName = token.token.name;
+          const tokenPattern = `Anomaly AI ${searchedNumber} ${searchedHashtagItem}`;
+          return tokenName === tokenPattern;
         }
       );
-  
+
       if (foundToken) {
         setTokenID(foundToken.token.tokenId);
         const number = parseInt(searchedNumber, 10);
@@ -152,6 +153,23 @@ const Home = () => {
       console.error('Error searching for token:', error);
     }
   };
+
+  const debouncedSearch = debounce(handleTokenSearch, 300); // Adjust the delay time as needed (in milliseconds)
+
+  // Function to debounce the token search
+  function debounce(func, wait) {
+    let timeout;
+
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
 
   return (
     <div>
@@ -168,7 +186,7 @@ const Home = () => {
         onChange={(e) => setSearchedHashtagItem(e.target.value)}
         placeholder="Enter Hashtag Item (#1/10-#10/10)"
       />
-      <button onClick={handleTokenSearch}>Search</button>
+      <button onClick={debouncedSearch}>Search</button>
       {tokenID && (
         <div>
           <p>Token ID: {tokenID}</p>
