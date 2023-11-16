@@ -125,11 +125,11 @@ const Home = () => {
   };
 
   const handleTokenSearch = async () => {
-    if (!searchedNumber || !searchedHashtagItem || searchedNumber < 1 || searchedNumber > 888 || !/^\#\d\/10$/.test(searchedHashtagItem)) {
+    if (!searchedNumber || !searchedHashtagItem || searchedNumber < 1 || searchedNumber > 888 || !/^#\d{1,2}\/10$/.test(searchedHashtagItem)) {
       alert('Please enter a valid number between 1 and 888 along with a valid hashtag item (#1/10-#10/10)');
       return;
     }
-
+  
     try {
       const allTokens = await fetchAllTokens();
       const foundToken = allTokens.find(
@@ -138,7 +138,7 @@ const Home = () => {
           return token.token.name === pattern;
         }
       );
-
+  
       if (foundToken) {
         setTokenID(foundToken.token.tokenId);
         const number = parseInt(searchedNumber, 10);
