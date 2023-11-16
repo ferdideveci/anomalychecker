@@ -36,7 +36,7 @@ const Home = () => {
       },
     };
 
-    let url = 'https://api.reservoir.tools/tokens/v6?collection=0x7a31c6726f358fad0783110a46ef489372fbfc65&sortBy=tokenId&limit=100';
+    let url = 'https://api.reservoir.tools/tokens/v6?collection=0x7a31c6726f358fad0783110a46ef489372fbfc65&sortBy=updatedAt&limit=1000';
     if (continuationToken) {
       url += `&continuation=${encodeURIComponent(continuationToken)}`;
     }
