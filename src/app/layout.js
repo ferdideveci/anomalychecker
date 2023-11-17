@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Anomaly Checker',
-  description: 'Developed by @fxckfxru',
+  description: 'Developed by @fxru_eth',
 }
 
 export default function RootLayout({ children }) {
