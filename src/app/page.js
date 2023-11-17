@@ -196,7 +196,7 @@ const Home = () => {
           type="text"
           value={searchedNumber}
           onChange={(e) => setSearchedNumber(e.target.value)}
-          placeholder="[insert n]"
+          placeholder="[insert n (001, 010, 100)]"
           className={styles.inputField}
           min="1"
           max="888"
