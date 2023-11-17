@@ -3,12 +3,21 @@
 "use client";
 
 import { useEffect, useState } from 'react';
+import styles from './page.module.css';
 
 const Home = () => {
   const [searchedNumber, setSearchedNumber] = useState('');
   const [searchedHashtagItem, setSearchedHashtagItem] = useState('');
-  const [tokenID, setTokenID] = useState('');
+  const [tokenImage, setTokenImage] = useState('');
   const [tokenCategory, setTokenCategory] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = loading ? 'hidden' : 'unset';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [loading]);
 
   const fetchAllTokens = async () => {
     let allTokens = [];
@@ -108,19 +117,19 @@ const Home = () => {
     const GRAIL = [352, 418, 419, 532];
 
     if (COLORS.includes(number)) {
-      return 'COLORS';
+      return 'colors';
     } else if (UNIQUE.includes(number)) {
-      return 'UNIQUE';
+      return 'unique';
     } else if (FLOWERS.includes(number)) {
-      return 'FLOWERS';
+      return 'flowers';
     } else if (EYES.includes(number)) {
-      return 'EYES';
+      return 'eyes';
     } else if (COSMIC.includes(number)) {
-      return 'COSMIC';
+      return 'cosmic';
     } else if (GRAIL.includes(number)) {
-      return 'GRAIL';
+      return 'grail';
     } else {
-      return 'COMMON';
+      return 'common';
     }
   };
 
@@ -131,33 +140,30 @@ const Home = () => {
     }
 
     try {
+      setLoading(true);
+
       const allTokens = await fetchAllTokens();
-      const foundToken = allTokens.find(
-        (token) => {
-          const tokenName = token.token.name;
-          const tokenPattern = `Anomaly AI ${searchedNumber} ${searchedHashtagItem}`;
-          return tokenName === tokenPattern;
-        }
-      );
+      const foundToken = allTokens.find((token) => {
+        const tokenName = token.token.name;
+        const tokenPattern = `Anomaly AI ${searchedNumber} ${searchedHashtagItem}`;
+        return tokenName === tokenPattern;
+      });
 
       if (foundToken) {
-        setTokenID(foundToken.token.tokenId);
-        const number = parseInt(searchedNumber, 10);
-        const category = categorizeToken(number);
-        setTokenCategory(category);
+        setTokenImage(foundToken.token.image); // Set the token image URL
+        setTokenCategory(categorizeToken(parseInt(searchedNumber, 10))); // Set the token category
       } else {
-        setTokenID('Token not found');
-        setTokenCategory('');
+        setTokenImage(''); // Reset token image if not found
+        setTokenCategory('Token not found');
       }
     } catch (error) {
       console.error('Error searching for token:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const debouncedSearch = debounce(handleTokenSearch, 300); // Adjust the delay time as needed (in milliseconds)
-
-  // Function to debounce the token search
-  function debounce(func, wait) {
+  const debounce = (func, wait) => {
     let timeout;
 
     return function executedFunction(...args) {
@@ -169,34 +175,55 @@ const Home = () => {
       clearTimeout(timeout);
       timeout = setTimeout(later, wait);
     };
-  }
+  };
+
+  const debouncedSearch = debounce(handleTokenSearch, 300);
 
   return (
-    <div>
-      <h1>Anomaly AI NFT Collection Tokens</h1>
-      <input
-        type="number"
-        value={searchedNumber}
-        onChange={(e) => setSearchedNumber(e.target.value)}
-        placeholder="Enter Number"
-      />
-      <input
-        type="text"
-        value={searchedHashtagItem}
-        onChange={(e) => setSearchedHashtagItem(e.target.value)}
-        placeholder="Enter Hashtag Item (#1/10-#10/10)"
-      />
-      <button onClick={debouncedSearch}>Search</button>
-      {tokenID && (
-        <div>
-          <p>Token ID: {tokenID}</p>
+    <div className={styles.container}>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin='true' />
+      <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet" />
+      <h1 className={styles.title}>ANOMALYCHECKER</h1>
+      <div className={styles.searchContainer}>
+        <input
+          type="text"
+          value={searchedNumber}
+          onChange={(e) => setSearchedNumber(e.target.value)}
+          placeholder="[insert n]"
+          className={styles.inputField}
+          min="1"
+          max="888"
+        />
+        <input
+          type="text"
+          value={searchedHashtagItem}
+          onChange={(e) => setSearchedHashtagItem(e.target.value)}
+          placeholder="[insert #]"
+          className={styles.inputField}
+        />
+        <button onClick={debouncedSearch} className={styles.searchButton}>
+          analyze
+        </button>
+      </div>
+      {loading ? (
+        <div className={styles.loading}>
+          <p>ANOMALY LOADING...</p>
+          <div className={styles.loader}></div>
         </div>
+      ) : (
+        <>
+          {tokenImage && (
+            <div className={styles.tokenInfo}>
+              <img src={tokenImage} alt="Anomaly Image" className={styles.tokenImage} />
+              <p className={styles.categoryLabel}>{tokenCategory}</p>
+            </div>
+          )}
+        </>
       )}
-      {tokenCategory && (
-        <div>
-          <p>Token Category: {tokenCategory}</p>
-        </div>
-      )}
+      <div className={styles.footer}>
+        <p>Like the AnomalyChecker? Any donations to help me fund my new MacBook are welcome &rarr; ferdinandveci.eth</p>
+      </div>
     </div>
   );
 };
