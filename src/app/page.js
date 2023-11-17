@@ -119,23 +119,23 @@ const Home = () => {
     const GRAIL = [352, 418, 419, 532];
 
     if (COLORS.includes(number)) {
-      return 'colors';
+      return 'Colors';
     } else if (UNIQUE.includes(number)) {
-      return 'unique';
+      return 'Unique';
     } else if (FLOWERS.includes(number)) {
-      return 'flowers';
+      return 'Flowers';
     } else if (EYES.includes(number)) {
-      return 'eyes';
+      return 'Eyes';
     } else if (COSMIC.includes(number)) {
-      return 'cosmic';
+      return 'Cosmic';
     }
     else if (FACES.includes(number)) {
-      return 'faces';
+      return 'Faces';
     }
      else if (GRAIL.includes(number)) {
-      return 'grail';
+      return 'Grail';
     } else {
-      return 'common';
+      return 'Common';
     }
   };
 
@@ -185,6 +185,12 @@ const Home = () => {
 
   const debouncedSearch = debounce(handleTokenSearch, 300);
 
+  const handleEnterKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      debouncedSearch();
+    }
+  };
+
   return (
     <div className={styles.container}>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -196,6 +202,7 @@ const Home = () => {
           type="text"
           value={searchedNumber}
           onChange={(e) => setSearchedNumber(e.target.value)}
+          onKeyDown={handleEnterKeyPress}
           placeholder="[insert n (001, 010, 100)]"
           className={styles.inputField}
           min="1"
@@ -215,7 +222,7 @@ const Home = () => {
           {tokenImage && (
             <div className={styles.tokenInfo}>
               <img src={tokenImage} alt="Anomaly Image" className={styles.tokenImage} />
-              <p className={styles.categoryLabel}>{tokenCategory}</p>
+              <p className={styles.categoryLabel}>{tokenCategory} {searchedNumber}</p>
             </div>
           )}
         </>
