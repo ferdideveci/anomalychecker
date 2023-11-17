@@ -222,7 +222,7 @@ const Home = () => {
         </>
       )}
       <div className={styles.footer}>
-        <p>Like the AnomalyChecker? Any donations to help me fund my new MacBook are welcome &rarr; ferdinandveci.eth</p>
+        <p>Developed by fxru. Like the AnomalyChecker? Any donations to help me fund my new MacBook are welcome &rarr; ferdinandveci.eth</p>
       </div>
     </div>
   );
