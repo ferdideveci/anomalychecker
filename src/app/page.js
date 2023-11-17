@@ -7,7 +7,6 @@ import styles from './page.module.css';
 
 const Home = () => {
   const [searchedNumber, setSearchedNumber] = useState('');
-  const [searchedHashtagItem, setSearchedHashtagItem] = useState('');
   const [tokenImage, setTokenImage] = useState('');
   const [tokenCategory, setTokenCategory] = useState('');
   const [loading, setLoading] = useState(false);
@@ -141,21 +140,21 @@ const Home = () => {
   };
 
   const handleTokenSearch = async () => {
-    if (!searchedNumber || !searchedHashtagItem || searchedNumber < 1 || searchedNumber > 888 || !/^#\d{1,3}\/10$/.test(searchedHashtagItem)) {
-      alert('Please enter a valid number between 1 and 888 along with a valid hashtag item (#1/10-#10/10)');
+    if (!searchedNumber || searchedNumber < 1 || searchedNumber > 888) {
+      alert('Please enter a valid number between 1 and 888');
       return;
     }
-
+  
     try {
       setLoading(true);
-
+  
       const allTokens = await fetchAllTokens();
       const foundToken = allTokens.find((token) => {
         const tokenName = token.token.name;
-        const tokenPattern = `Anomaly AI ${searchedNumber} ${searchedHashtagItem}`;
-        return tokenName === tokenPattern;
+        const tokenPattern = `Anomaly AI ${searchedNumber}`;
+        return tokenName.includes(tokenPattern);
       });
-
+  
       if (foundToken) {
         setTokenImage(foundToken.token.image); // Set the token image URL
         setTokenCategory(categorizeToken(parseInt(searchedNumber, 10))); // Set the token category
@@ -202,13 +201,6 @@ const Home = () => {
           min="1"
           max="888"
         />
-        <input
-          type="text"
-          value={searchedHashtagItem}
-          onChange={(e) => setSearchedHashtagItem(e.target.value)}
-          placeholder="[insert #]"
-          className={styles.inputField}
-        />
         <button onClick={debouncedSearch} className={styles.searchButton}>
           analyze
         </button>
@@ -236,3 +228,4 @@ const Home = () => {
 };
 
 export default Home;
+
