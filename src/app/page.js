@@ -228,7 +228,7 @@ const Home = () => {
         </>
       )}
       <div className={styles.footer}>
-        <p>Developed by @fxru_eth. Like the AnomalyChecker? Any donations to help me fund my new MacBook are welcome &rarr; ferdinandveci.eth</p>
+        <p>Developed by <a href='https://twitter.com/fxru_eth'>@fxru_eth</a>. Like the AnomalyChecker? Any donations to help me fund my new MacBook are welcome &rarr; ferdinandveci.eth</p>
       </div>
     </div>
   );
