@@ -35,7 +35,7 @@ export default function Home() {
       <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet" />
       <link rel="stylesheet" href="https://use.typekit.net/xjs6syn.css"></link>
       <nav className={styles.nav}>
-      <div className={styles.navDiv}> ANOMALYCHECKER.APP </div>
+      <div className={styles.navDiv}> <a href="/">ANOMALYCHECKER.APP</a> </div>
     </nav>
     <h1 className={styles.title}>Explore the Anomaly <br></br> AI NFT Collection</h1>
       <div className={styles.searchContainer}>
