@@ -198,7 +198,6 @@ const Token = () => {
       <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet" />
       {loading ? (
         <div className={styles.loading}>
-          <p>ANOMALY LOADING...</p>
           <div className={styles.loader}></div>
         </div>
       ) : (
