@@ -51,7 +51,7 @@ export default function Home() {
           max="888"
         />
         <button onClick={handleTokenSearch} className={styles.searchButton}>
-        ➔
+        →
         </button>
       </div>
       </div>

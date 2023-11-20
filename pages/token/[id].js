@@ -203,15 +203,17 @@ const Token = () => {
         </div>
       ) : (
         <>
+        <nav className={styles.nav}>
+      <div className={styles.navDiv}> <button onClick={handleBackButtonClick} className={styles.backButton}>
+          ←
+        </button> </div>
+    </nav>
           {tokenImage && (
             <div className={styles.tokenInfo}>
               <img src={tokenImage} alt="Anomaly Image" className={styles.tokenImage} />
               <p className={styles.categoryLabel}>{tokenCategory} {id}</p>
             </div>
           )}
-          <button onClick={handleBackButtonClick} className={styles.searchButton}>
-           ➔
-        </button>
         </>
       )}
     </div>
