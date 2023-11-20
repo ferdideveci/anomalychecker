@@ -1,7 +1,5 @@
 import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react';
-import '../styles/globals.css'
-import'./page.module.css'
 import { metadata } from './metadata.js'
 
 export default function RootLayout({ children }) {
