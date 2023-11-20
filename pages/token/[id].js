@@ -209,7 +209,7 @@ const Token = () => {
         </button> </div>
     </nav>
           {tokenImage && (
-            <div className={styles.tokenInfo}>
+            <div className={styles.tokenInfoBack}>
               <img src={tokenImage} alt="Anomaly Image" className={styles.tokenImage} />
               <p className={styles.categoryLabel}>{tokenCategory} {id}</p>
             </div>
