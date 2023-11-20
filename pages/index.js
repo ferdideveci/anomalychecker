@@ -37,7 +37,7 @@ export default function Home() {
       <nav className={styles.nav}>
       <div className={styles.navDiv}> <a href="/">ANOMALYCHECKER.APP</a> </div>
     </nav>
-    <h1 className={styles.title}>Explore the Anomaly <br></br> AI NFT Collection</h1>
+    <h1 className={styles.title}>Explore the ANOMALY A.I. by <br></br> Star IM NFT Collection</h1>
       <div className={styles.searchContainer}>
       <div className={styles.inputGroup}>
         <input

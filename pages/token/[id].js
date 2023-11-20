@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styles from '.././page.module.css';
+import { Archivo_Black } from 'next/font/google';
 
 const Token = () => {
   const router = useRouter();
@@ -208,6 +209,9 @@ const Token = () => {
               <p className={styles.categoryLabel}>{tokenCategory} {id}</p>
             </div>
           )}
+          <button onClick={handleBackButtonClick} className={styles.searchButton}>
+           ➔
+        </button>
         </>
       )}
     </div>
