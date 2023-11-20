@@ -1,22 +1,13 @@
-// pages/page.js
-
-"use client";
-
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import styles from './page.module.css';
+import styles from '.././page.module.css';
 
-const Home = () => {
-  const [searchedNumber, setSearchedNumber] = useState('');
+const Token = () => {
+  const router = useRouter();
+  const { id } = router.query;
   const [tokenImage, setTokenImage] = useState('');
   const [tokenCategory, setTokenCategory] = useState('');
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    document.body.style.overflow = loading ? 'hidden' : 'unset';
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [loading]);
 
   const fetchAllTokens = async () => {
     let allTokens = [];
@@ -140,7 +131,7 @@ const Home = () => {
   };
 
   const handleTokenSearch = async () => {
-    if (!searchedNumber || searchedNumber < 1 || searchedNumber > 888) {
+    if (!id || id < 1 || id > 888) {
       alert('Please enter a valid number between 1 and 888');
       return;
     }
@@ -151,13 +142,13 @@ const Home = () => {
       const allTokens = await fetchAllTokens();
       const foundToken = allTokens.find((token) => {
         const tokenName = token.token.name;
-        const tokenPattern = `Anomaly AI ${searchedNumber}`;
+        const tokenPattern = `Anomaly AI ${id}`;
         return tokenName.includes(tokenPattern);
       });
   
       if (foundToken) {
         setTokenImage(foundToken.token.image); // Set the token image URL
-        setTokenCategory(categorizeToken(parseInt(searchedNumber, 10))); // Set the token category
+        setTokenCategory(categorizeToken(parseInt(id, 10))); // Set the token category
       } else {
         setTokenImage(''); // Reset token image if not found
         setTokenCategory('Token not found');
@@ -182,36 +173,29 @@ const Home = () => {
       timeout = setTimeout(later, wait);
     };
   };
+  
+  useEffect(() => {
+    document.body.style.overflow = loading ? 'hidden' : 'unset';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [loading]);
 
-  const debouncedSearch = debounce(handleTokenSearch, 300);
-
-  const handleEnterKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      debouncedSearch();
+  useEffect(() => {
+    if (id) {
+      handleTokenSearch();
     }
+  }, [id]);
+
+  const handleBackButtonClick = () => {
+    router.push('/');
   };
 
   return (
     <div className={styles.container}>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin='true' />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""></link>
       <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet" />
-      <h1 className={styles.title}>ANOMALYCHECKER</h1>
-      <div className={styles.searchContainer}>
-        <input
-          type="text"
-          value={searchedNumber}
-          onChange={(e) => setSearchedNumber(e.target.value)}
-          onKeyDown={handleEnterKeyPress}
-          placeholder="[insert n (001, 010, 100)]"
-          className={styles.inputField}
-          min="1"
-          max="888"
-        />
-        <button onClick={debouncedSearch} className={styles.searchButton}>
-          analyze
-        </button>
-      </div>
       {loading ? (
         <div className={styles.loading}>
           <p>ANOMALY LOADING...</p>
@@ -222,17 +206,13 @@ const Home = () => {
           {tokenImage && (
             <div className={styles.tokenInfo}>
               <img src={tokenImage} alt="Anomaly Image" className={styles.tokenImage} />
-              <p className={styles.categoryLabel}>{tokenCategory} {searchedNumber}</p>
+              <p className={styles.categoryLabel}>{tokenCategory} {id}</p>
             </div>
           )}
         </>
       )}
-      <div className={styles.footer}>
-        <p>Developed by <a href='https://twitter.com/fxru_eth' target="_blank">@fxru_eth</a>. Like the AnomalyChecker? Any donations to help me fund my new MacBook are welcome &rarr; ferdinandveci.eth</p>
-      </div>
     </div>
   );
 };
 
-export default Home;
-
+export default Token;

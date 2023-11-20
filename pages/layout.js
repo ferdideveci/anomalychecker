@@ -1,15 +1,11 @@
 import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react';
-import './globals.css'
-import'./page.module.css'
-
-
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Anomaly Checker',
-  description: 'Developed by @fxru_eth',
+  title: 'Anomalychecker.app - Track any set of the Anomaly AI NFT collection',
+  description: 'Track any set of the Anomaly AI NFT collection. Developed by @fxru_eth',
 }
 
 export default function RootLayout({ children }) {
